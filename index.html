@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NovaSphere</title>
+    <meta
+      name="description"
+      content="NovaSphere is a stylish gaming dashboard with login, register, leaderboard, progress tracking, and interactive mini-games."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="background-orb orb-1"></div>
+    <div class="background-orb orb-2"></div>
+    <div class="background-orb orb-3"></div>
+
+    <div id="authOverlay" class="auth-overlay hidden">
+      <div class="auth-card">
+        <div class="brand-mark">
+          <span class="logo-badge">N</span>
+          <div>
+            <p class="eyebrow">Gaming Portal</p>
+            <h2>NovaSphere</h2>
+          </div>
+        </div>
+
+        <div class="switcher">
+          <button class="switch-btn active" data-auth-tab="login">Login</button>
+          <button class="switch-btn" data-auth-tab="register">Register</button>
+          <button class="switch-btn" data-auth-tab="forgot">Forgot</button>
+        </div>
+
+        <form id="loginForm" class="auth-form active">
+          <div class="field-group">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" type="email" placeholder="you@example.com" required />
+          </div>
+          <div class="field-group password-field">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" placeholder="••••••••" required />
+            <button type="button" class="password-toggle" data-target="loginPassword" aria-label="Toggle password visibility">
+              <i class="bx bx-show"></i>
+            </button>
+          </div>
+          <div class="inline-row">
+            <label class="check-wrap">
+              <input type="checkbox" checked />
+              <span>Remember me</span>
+            </label>
+            <button type="button" class="link-btn" data-auth-tab="forgot">Forgot password?</button>
+          </div>
+          <button class="primary-btn" type="submit">Sign in</button>
+        </form>
+
+        <form id="registerForm" class="auth-form">
+          <div class="form-grid">
+            <div class="field-group">
+              <label for="firstName">First name</label>
+              <input id="firstName" type="text" required />
+            </div>
+            <div class="field-group">
+              <label for="lastName">Surname</label>
+              <input id="lastName" type="text" required />
+            </div>
+            <div class="field-group full-span">
+              <label for="registerEmail">Email</label>
+              <input id="registerEmail" type="email" required />
+            </div>
+            <div class="field-group">
+              <label for="dob">Birthdate</label>
+              <input id="dob" type="date" required />
+            </div>
+            <div class="field-group">
+              <label for="age">Age</label>
+              <input id="age" type="number" readonly />
+            </div>
+            <div class="field-group password-field">
+              <label for="registerPassword">Password</label>
+              <input id="registerPassword" type="password" required />
+              <button type="button" class="password-toggle" data-target="registerPassword" aria-label="Toggle password visibility">
+                <i class="bx bx-show"></i>
+              </button>
+            </div>
+            <div class="field-group password-field">
+              <label for="confirmPassword">Confirm password</label>
+              <input id="confirmPassword" type="password" required />
+              <button type="button" class="password-toggle" data-target="confirmPassword" aria-label="Toggle confirm password visibility">
+                <i class="bx bx-show"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="checks-box">
+            <label class="check-wrap large-check">
+              <input id="termsCheck" type="checkbox" required />
+              <span>I agree to the Terms &amp; Conditions</span>
+            </label>
+            <label class="check-wrap large-check">
+              <input id="privacyCheck" type="checkbox" required />
+              <span>I accept the Privacy Policy</span>
+            </label>
+          </div>
+
+          <button class="primary-btn" type="submit">Create account</button>
+        </form>
+
+        <form id="forgotForm" class="auth-form">
+          <div class="field-group">
+            <label for="forgotEmail">Recover email</label>
+            <input id="forgotEmail" type="email" placeholder="Enter your email" required />
+          </div>
+          <p class="helper-text">We will send a password reset link to your email.</p>
+          <button class="primary-btn" type="submit">Send reset link</button>
+        </form>
+
+        <p id="authMessage" class="auth-message"></p>
+      </div>
+    </div>
+
+    <div class="app-shell hidden" id="appShell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo-circle">N</div>
+          <div>
+            <p>NovaSphere</p>
+            <small>XP Hub</small>
+          </div>
+        </div>
+
+        <nav class="nav-menu">
+          <button class="nav-link active" data-target="home"><i class="bx bx-home-alt"></i>Home</button>
+          <button class="nav-link" data-target="about"><i class="bx bx-info-circle"></i>About</button>
+          <button class="nav-link" data-target="services"><i class="bx bx-cog"></i>Services</button>
+          <button class="nav-link" data-target="games"><i class="bx bx-game"></i>Games</button>
+          <button class="nav-link" data-target="settings"><i class="bx bx-slider-alt"></i>Settings</button>
+          <button class="nav-link" data-target="progress"><i class="bx bx-trending-up"></i>Progress</button>
+          <button class="nav-link" data-target="account"><i class="bx bx-user"></i>Account</button>
+          <button class="nav-link" data-target="leaderboard"><i class="bx bx-trophy"></i>Leaderboard</button>
+        </nav>
+
+        <div class="toolbar">
+          <button id="loginBtn" class="secondary-btn small-btn">Login</button>
+          <button id="themeToggle" class="icon-button" aria-label="Toggle theme">
+            <i class="bx bx-moon"></i>
+          </button>
+          <button id="logoutBtn" class="secondary-btn small-btn">Logout</button>
+        </div>
+      </header>
+
+      <main class="main-layout">
+        <section id="home" class="page-panel active">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <span class="badge">Level up in style</span>
+              <h1>Build your next win with performance, passion, and play.</h1>
+              <p>
+                Track your growth, challenge your friends, and unlock custom experiences in a sleek digital arena designed for focus and fun.
+              </p>
+              <div class="hero-actions">
+                <button class="primary-btn" data-target="games">Play now</button>
+                <button class="ghost-btn" data-target="progress">View progress</button>
+              </div>
+              <ul class="hero-metrics">
+                <li><strong>12k+</strong><span>Players</span></li>
+                <li><strong>98%</strong><span>Satisfaction</span></li>
+                <li><strong>4.9/5</strong><span>Rating</span></li>
+              </ul>
+            </div>
+
+            <div class="hero-card">
+              <div class="glass-header">
+                <span>XP Dashboard</span>
+                <span class="status-dot">Live</span>
+              </div>
+              <div class="xp-ring">
+                <div class="xp-ring-inner">
+                  <strong>83%</strong>
+                  <span>XP</span>
+                </div>
+              </div>
+              <div class="xp-breakdown">
+                <div>
+                  <small>Rank</small>
+                  <strong>#12</strong>
+                </div>
+                <div>
+                  <small>Streak</small>
+                  <strong>7 days</strong>
+                </div>
+                <div>
+                  <small>Wins</small>
+                  <strong>35</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="about" class="page-panel">
+          <div class="section-heading">
+            <p class="eyebrow">About</p>
+            <h2>Built for curious minds and competitive players.</h2>
+          </div>
+          <div class="feature-grid">
+            <article class="info-card">
+              <i class="bx bx-rocket"></i>
+              <h3>Fast Growth</h3>
+              <p>Learn, compete, and improve with smart progress insights and focused milestones.</p>
+            </article>
+            <article class="info-card">
+              <i class="bx bx-shield-quarter"></i>
+              <h3>Safe & Secure</h3>
+              <p>Personal data is protected with secure account controls and privacy-first handling.</p>
+            </article>
+            <article class="info-card">
+              <i class="bx bx-target-lock"></i>
+              <h3>Goal Driven</h3>
+              <p>Every challenge is designed to help users unlock skills, confidence, and momentum.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="services" class="page-panel">
+          <div class="section-heading">
+            <p class="eyebrow">Services</p>
+            <h2>Everything you need to stay focused and ahead.</h2>
+          </div>
+          <div class="service-grid">
+            <article class="service-card accent-pink">
+              <i class="bx bx-briefcase-alt-2"></i>
+              <h3>Performance Tracking</h3>
+              <p>Visual growth dashboards for your wins, streaks, and personal milestones.</p>
+            </article>
+            <article class="service-card accent-violet">
+              <i class="bx bx-bell"></i>
+              <h3>Smart Reminders</h3>
+              <p>Keep your sessions on track with alerts, targets, and daily progress nudges.</p>
+            </article>
+            <article class="service-card accent-cyan">
+              <i class="bx bx-trophy"></i>
+              <h3>Challenge Arena</h3>
+              <p>Compete in mini games and climb the leaderboard with confidence.</p>
+            </article>
+            <article class="service-card accent-gold">
+              <i class="bx bx-palette"></i>
+              <h3>Custom Style</h3>
+              <p>Adjust colours, themes, and preferences to match your personal workflow.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="games" class="page-panel">
+          <div class="section-heading inline-heading">
+            <div>
+              <p class="eyebrow">Games</p>
+              <h2>10 interactive mini-games</h2>
+            </div>
+            <button id="playRandomGame" class="secondary-btn">Surprise me</button>
+          </div>
+          <div class="game-grid">
+            <button class="game-card" data-game="number"><i class='bx bx-number'></i><span>Number Guess</span></button>
+            <button class="game-card" data-game="tictactoe"><i class='bx bx-grid'></i><span>Tic Tac Toe</span></button>
+            <button class="game-card" data-game="rps"><i class='bx bx-hand'></i><span>Rock Paper</span></button>
+            <button class="game-card" data-game="memory"><i class='bx bx-memory-card'></i><span>Memory Match</span></button>
+            <button class="game-card" data-game="quiz"><i class='bx bx-question-mark'></i><span>Quiz</span></button>
+            <button class="game-card" data-game="dice"><i class='bx bx-cube'></i><span>Dice Clash</span></button>
+            <button class="game-card" data-game="typing"><i class='bx bx-keyboard'></i><span>Typing Sprint</span></button>
+            <button class="game-card" data-game="reaction"><i class='bx bx-bolt-circle'></i><span>Reaction Race</span></button>
+            <button class="game-card" data-game="color"><i class='bx bx-palette'></i><span>Color Guess</span></button>
+            <button class="game-card" data-game="spin"><i class='bx bx-gift'></i><span>Lucky Spin</span></button>
+          </div>
+        </section>
+
+        <section id="settings" class="page-panel">
+          <div class="section-heading">
+            <p class="eyebrow">Settings</p>
+            <h2>Customize your workspace.</h2>
+          </div>
+          <div class="settings-panel">
+            <div class="setting-item">
+              <label for="themeSelect">Theme</label>
+              <select id="themeSelect" title="Select theme">
+                <option value="dark">Dark pulse</option>
+                <option value="neon">Neon night</option>
+                <option value="sunset">Sunset glow</option>
+              </select>
+            </div>
+            <div class="setting-item">
+              <label for="notificationsToggle">Notifications</label>
+              <label class="toggle-switch">
+                <input id="notificationsToggle" type="checkbox" checked aria-label="Enable notifications" />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <label for="soundToggle">Sound</label>
+              <label class="toggle-switch">
+                <input id="soundToggle" type="checkbox" checked aria-label="Enable sound" />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="setting-item">
+              <label for="dailyGoalRange">Daily goal</label>
+              <input id="dailyGoalRange" type="range" min="20" max="100" value="75" aria-label="Daily goal" />
+            </div>
+          </div>
+        </section>
+
+        <section id="progress" class="page-panel">
+          <div class="section-heading inline-heading">
+            <div>
+              <p class="eyebrow">Progress</p>
+              <h2>Your performance snapshot.</h2>
+            </div>
+            <button id="progressLogoutBtn" class="secondary-btn small-btn">Logout</button>
+          </div>
+          <div class="stats-grid">
+            <article class="stat-card accent-pink"><span>Level</span><strong id="levelValue">12</strong></article>
+            <article class="stat-card accent-violet"><span>XP</span><strong id="xpValue">840</strong></article>
+            <article class="stat-card accent-cyan"><span>Streak</span><strong id="streakValue">7 days</strong></article>
+            <article class="stat-card accent-gold"><span>Wins</span><strong id="winsValue">35</strong></article>
+          </div>
+          <div class="progress-graph">
+            <div class="graph-bar bar-82"></div>
+            <div class="graph-bar bar-68"></div>
+            <div class="graph-bar bar-90"></div>
+            <div class="graph-bar bar-74"></div>
+            <div class="graph-bar bar-96"></div>
+          </div>
+        </section>
+
+        <section id="account" class="page-panel">
+          <div class="section-heading inline-heading">
+            <div>
+              <p class="eyebrow">Account</p>
+              <h2>Your profile.</h2>
+            </div>
+            <button id="accountLogoutBtn" class="secondary-btn small-btn">Logout</button>
+          </div>
+          <div class="account-panel">
+            <div class="profile-card">
+              <div class="avatar">JS</div>
+              <div>
+                <p class="label">Player</p>
+                <h3 id="profileName">Jordan Smith</h3>
+                <span id="profileEmail">jordan@example.com</span>
+              </div>
+            </div>
+            <div class="account-form">
+              <div class="field-group">
+                <label for="accountName">Name</label>
+                <input id="accountName" type="text" value="Jordan" aria-label="Name" />
+              </div>
+              <div class="field-group">
+                <label for="accountSurname">Surname</label>
+                <input id="accountSurname" type="text" value="Smith" aria-label="Surname" />
+              </div>
+              <div class="field-group full-span">
+                <label for="accountEmail">Email</label>
+                <input id="accountEmail" type="email" value="jordan@example.com" aria-label="Email" />
+              </div>
+              <button class="primary-btn" id="saveProfileBtn">Save profile</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="leaderboard" class="page-panel">
+          <div class="section-heading">
+            <p class="eyebrow">Leaderboard</p>
+            <h2>Top players this week.</h2>
+          </div>
+          <div class="leaderboard-card">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Player</th>
+                  <th>Score</th>
+                  <th>Streak</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="gameModal" class="game-modal hidden" aria-hidden="true">
+      <div class="game-modal-card">
+        <button id="closeGameModal" class="close-modal" aria-label="Close game">
+          <i class="bx bx-x"></i>
+        </button>
+        <div id="gameContainer"></div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
